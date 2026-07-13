@@ -7,6 +7,7 @@ export default function Modal({ product, catLabel, onClose }) {
 
   useEffect(() => {
     if (!product) return
+    overlayRef.current?.querySelector('.m-img-panel')?.classList.remove('img-loaded')
     const raf = requestAnimationFrame(() => {
       overlayRef.current?.classList.add('open')
       // animate ing-fill bars
@@ -32,7 +33,19 @@ export default function Modal({ product, catLabel, onClose }) {
         <div className="m-inner">
           <div className="m-img-panel">
             {product.img
-              ? <img id="m-img" src={product.img} alt={product.name} onError={e => { e.target.style.display='none'; e.target.nextSibling.style.display='block' }} />
+              ? <img
+                  id="m-img"
+                  key={product.key}
+                  src={product.img}
+                  alt={product.name}
+                  decoding="async"
+                  onLoad={e => e.target.closest('.m-img-panel')?.classList.add('img-loaded')}
+                  onError={e => {
+                    e.target.style.display = 'none'
+                    e.target.nextSibling.style.display = 'block'
+                    e.target.closest('.m-img-panel')?.classList.add('img-loaded')
+                  }}
+                />
               : null}
             <span id="m-emoji" style={product.img ? {} : { display:'block' }}>{product.emoji}</span>
           </div>

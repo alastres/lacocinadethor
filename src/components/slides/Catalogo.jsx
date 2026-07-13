@@ -50,9 +50,13 @@ export default function Catalogo({ isActive, onOpenModal }) {
                   className="pimg"
                   src={p.img}
                   alt={p.name}
+                  loading="lazy"
+                  decoding="async"
+                  onLoad={e => e.target.parentElement.classList.add('img-loaded')}
                   onError={e => {
                     e.target.style.display = 'none'
                     e.target.nextSibling.style.display = 'block'
+                    e.target.parentElement.classList.add('img-loaded')
                   }}
                 />
                 <span className="pimg-fallback" style={{ display: 'none' }}>{p.emoji}</span>

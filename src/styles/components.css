@@ -130,9 +130,17 @@ h1.htitle {
 }
 .prod-card:hover { transform:translateY(-9px) scale(1.025); box-shadow:0 26px 54px rgba(0,0,0,.85), 0 0 32px rgba(200,255,0,.2); border-color:rgba(200,255,0,.52); }
 .pimg-wrap { background:linear-gradient(135deg,#151515,#1d1d1d); height:148px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
-.pimg { height:130px; width:auto; object-fit:contain; transition:transform .4s ease; }
+.pimg-wrap::after {
+  content:''; position:absolute; inset:0; z-index:1;
+  background:linear-gradient(100deg, rgba(200,255,0,0) 30%, rgba(200,255,0,.14) 50%, rgba(200,255,0,0) 70%);
+  background-size:250% 100%; animation:img-shimmer 1.35s ease-in-out infinite;
+}
+.pimg-wrap.img-loaded::after { content:none; animation:none; }
+.pimg { height:130px; width:auto; object-fit:contain; opacity:0; transition:opacity .35s ease, transform .4s ease; }
+.pimg-wrap.img-loaded .pimg { opacity:1; }
 .prod-card:hover .pimg { transform:scale(1.1) translateY(-5px); }
 .pimg-fallback { font-size:4.5rem; line-height:1; display:none; }
+@keyframes img-shimmer { 0% { background-position:150% 0; } 100% { background-position:-150% 0; } }
 .pclick {
   position:absolute; bottom:0; left:0; right:0;
   background:linear-gradient(0deg,rgba(200,255,0,.94),rgba(200,255,0,.3),transparent);
@@ -288,7 +296,14 @@ h1.htitle {
   padding:28px; position:relative; overflow:hidden;
 }
 .m-img-panel::before { content:''; position:absolute; inset:0; background:radial-gradient(circle at 50% 85%, rgba(200,255,0,.07),transparent 70%); }
-#m-img { max-height:320px; max-width:230px; object-fit:contain; position:relative; z-index:1; filter:drop-shadow(0 12px 28px rgba(0,0,0,.75)); transition:transform .4s; }
+.m-img-panel::after {
+  content:''; position:absolute; inset:0; z-index:2;
+  background:linear-gradient(100deg, rgba(200,255,0,0) 30%, rgba(200,255,0,.14) 50%, rgba(200,255,0,0) 70%);
+  background-size:250% 100%; animation:img-shimmer 1.35s ease-in-out infinite;
+}
+.m-img-panel.img-loaded::after { content:none; animation:none; }
+#m-img { max-height:320px; max-width:230px; object-fit:contain; position:relative; z-index:1; opacity:0; filter:drop-shadow(0 12px 28px rgba(0,0,0,.75)); transition:opacity .35s ease, transform .4s; }
+.m-img-panel.img-loaded #m-img { opacity:1; }
 #m-img:hover { transform:scale(1.05) rotate(-1.5deg); }
 #m-emoji { font-size:7rem; display:none; position:relative; z-index:1; }
 .m-content { padding:30px 32px 30px 26px; display:flex; flex-direction:column; }
